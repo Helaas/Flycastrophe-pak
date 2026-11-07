@@ -1,0 +1,29 @@
+{
+  "name": "Flycastrophe",
+  "platform": "mlp1",
+  "pak_version": "0.1.0",
+  "min_leaf_version": "0.14.0",
+  "provides": {
+    "schema": 1,
+    "systems": [],
+    "system_extensions": [
+      { "system_id": "DC", "add_alternate_cores": ["flycastrophe"] },
+      { "system_id": "NAOMI", "add_alternate_cores": ["flycastrophe"] },
+      { "system_id": "ATOMISWAVE", "add_alternate_cores": ["flycastrophe"] }
+    ],
+    "cores": [
+      {
+        "id": "flycastrophe",
+        "display_name": "Flycastrophe",
+        "type": "retroarch",
+        "libretro_name": "flycastrophe",
+        "file_name": "cores/flycastrophe_libretro.so",
+        "info_name": "info/flycastrophe_libretro.info",
+        "config_folder": "Flycastrophe",
+        "supports_menu": true,
+        "supports_savestate": true,
+        "supports_disk_control": true
+      }
+    ]
+  }
+}

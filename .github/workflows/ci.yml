@@ -1,0 +1,74 @@
+name: ci
+
+# Validates pak.json against the pinned content-pak contract, builds the pinned
+# Flycastrophe core in the pinned toolchain image, packages the pak and
+# validates the package. The runner starts from a bare clone, like an outside
+# contributor's machine.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Validate pak.json against the content-pak contract
+        run: make validate
+
+      - name: Refuse a launch.sh
+        run: |
+          # A pure content pak: a launch.sh would turn it into an app.
+          if [ -e pak/launch.sh ]; then
+            echo "pak/launch.sh present: this is meant to be a pure content pak" >&2
+            exit 1
+          fi
+
+      - name: Refuse a path that escapes the repository
+        run: |
+          if grep -REn '\.\./(Cores-spruce|Leaf|Jawaka|Catastrophe|umrk-workspace|mlp1-toolchain|Flycastrophe/)' \
+               Makefile core scripts .github 2>/dev/null; then
+            echo "build system references a sibling checkout" >&2
+            exit 1
+          fi
+          echo "no sibling-checkout references"
+
+      - name: Versions agree
+        run: |
+          python3 -I - <<'PY'
+          import json, re
+          pak = json.load(open("pak/pak.json"))
+          store = json.load(open("pakrat.json"))["leaf"]["packages"][0]
+          info = open("info/flycastrophe_libretro.info").read()
+          info_version = re.search(r'^display_version = "(.*)"$', info, re.M).group(1)
+          versions = {"pak.json": pak["pak_version"], "pakrat.json": store["version"], ".info": info_version}
+          floors = {"pak.json": pak["min_leaf_version"], "pakrat.json": store["min_leaf_version"]}
+          print(versions, floors)
+          assert len(set(versions.values())) == 1, versions
+          assert len(set(floors.values())) == 1, floors
+          PY
+
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build the pinned core, package and validate the package
+        run: make check
+
+      - name: Zip
+        run: make dist-pakrat
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Flycastrophe-pak
+          path: |
+            build/dist/Flycastrophe.mlp1.pak.zip
+            core/core.lock.json

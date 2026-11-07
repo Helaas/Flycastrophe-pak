@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "note": "Everything needed to reproduce the shipped core. A clean clone of this repository plus Docker is the whole toolchain. `make core` refuses to package a build whose sha256 differs from artifact.sha256 once that is recorded.",
+  "core": {
+    "id": "flycastrophe",
+    "source_url": "https://github.com/Helaas/Flycastrophe.git",
+    "source_commit": "a44a4d90fd20df16fb927eb52e166c9264a56ea4",
+    "source_commit_note": "Helaas/Flycastrophe PR 00 (agent/bootstrap) head. Re-pin to main once it is merged.",
+    "license": "GPL-2.0-only",
+    "license_path_in_source": "LICENSE"
+  },
+  "submodules": {
+    "note": "The only submodules a GLES libretro build without Vulkan compiles. Their commits come from the source commit's own gitlinks; they are recorded here so the pins are visible without a checkout, and build-core.sh checks them.",
+    "list": [
+      { "path": "core/deps/asio", "url": "https://github.com/flyinghead/asio.git", "commit": "d3402006e84efb6114ff93e4f2b8508412ed80d5" },
+      { "path": "core/deps/libchdr", "url": "https://github.com/flyinghead/libchdr.git", "commit": "5f82799f2c8cad1e9cd26d39a0f8d36369a5534b" },
+      { "path": "core/deps/rcheevos", "url": "https://github.com/RetroAchievements/rcheevos.git", "commit": "3106e6d3d274b63c59976cb07dda94a292ab45ca" },
+      { "path": "core/deps/tinygettext", "url": "https://github.com/flyinghead/tinygettext", "commit": "41572a67f96013691685a38f0032f3c97aa34f79" },
+      { "path": "core/deps/tinygettext/external/tinycmmc", "url": "https://github.com/Grumbel/tinycmmc.git", "commit": "9a51e13802d930feb7261ba8876940659b258cb7" }
+    ]
+  },
+  "build": {
+    "cmake_flags": [
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_POSITION_INDEPENDENT_CODE=TRUE",
+      "-DLIBRETRO=ON",
+      "-DFLYCASTROPHE=ON",
+      "-DUSE_GLES=ON",
+      "-DUSE_VULKAN=OFF",
+      "-DUSE_OPENMP=OFF",
+      "-DUSE_HOST_LIBZIP=OFF",
+      "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"
+    ],
+    "compiler_flags": "the toolchain's release profile (mlp1-build-flags.env): -O2 -mcpu=cortex-a55 -mtune=cortex-a55 -ffunction-sections -fdata-sections -DNDEBUG, link -Wl,--gc-sections",
+    "target": "flycast_libretro"
+  },
+  "toolchain": {
+    "image": "ghcr.io/utility-muffin-research-kitchen/mlp1-toolchain",
+    "digest": "sha256:66aac16fb8b07e663c9b4d66970f272df195a6eba98dfad8286eabbaa617faf9",
+    "cross_prefix": "aarch64-buildroot-linux-gnu",
+    "target": "aarch64 Cortex-A55, glibc (Miniloong Pocket 1 / RK3566)",
+    "note": "Public image, pullable anonymously. Always used by digest."
+  },
+  "artifact": {
+    "file_name": "flycastrophe_libretro.so",
+    "sha256": "PENDING-FIRST-VERIFIED-BUILD",
+    "needed": ["ld-linux-aarch64.so.1", "libc.so.6", "libgcc_s.so.1", "libm.so.6", "libstdc++.so.6"],
+    "note": "Record the sha256 once two clean builds agree. CI is the independent check; investigate a mismatch rather than overwriting this value."
+  }
+}
