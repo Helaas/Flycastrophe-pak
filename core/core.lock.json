@@ -4,19 +4,39 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "a44a4d90fd20df16fb927eb52e166c9264a56ea4",
-    "source_commit_note": "Helaas/Flycastrophe PR 00 (agent/bootstrap) head. Re-pin to main once it is merged.",
+    "source_commit": "5db21ed4063766a46fc81c5596677c907064fed1",
+    "source_commit_note": "Helaas/Flycastrophe main after PR 00 (Helaas/Flycastrophe#1).",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
   "submodules": {
     "note": "The only submodules a GLES libretro build without Vulkan compiles. Their commits come from the source commit's own gitlinks; they are recorded here so the pins are visible without a checkout, and build-core.sh checks them.",
     "list": [
-      { "path": "core/deps/asio", "url": "https://github.com/flyinghead/asio.git", "commit": "d3402006e84efb6114ff93e4f2b8508412ed80d5" },
-      { "path": "core/deps/libchdr", "url": "https://github.com/flyinghead/libchdr.git", "commit": "5f82799f2c8cad1e9cd26d39a0f8d36369a5534b" },
-      { "path": "core/deps/rcheevos", "url": "https://github.com/RetroAchievements/rcheevos.git", "commit": "3106e6d3d274b63c59976cb07dda94a292ab45ca" },
-      { "path": "core/deps/tinygettext", "url": "https://github.com/flyinghead/tinygettext", "commit": "41572a67f96013691685a38f0032f3c97aa34f79" },
-      { "path": "core/deps/tinygettext/external/tinycmmc", "url": "https://github.com/Grumbel/tinycmmc.git", "commit": "9a51e13802d930feb7261ba8876940659b258cb7" }
+      {
+        "path": "core/deps/asio",
+        "url": "https://github.com/flyinghead/asio.git",
+        "commit": "d3402006e84efb6114ff93e4f2b8508412ed80d5"
+      },
+      {
+        "path": "core/deps/libchdr",
+        "url": "https://github.com/flyinghead/libchdr.git",
+        "commit": "5f82799f2c8cad1e9cd26d39a0f8d36369a5534b"
+      },
+      {
+        "path": "core/deps/rcheevos",
+        "url": "https://github.com/RetroAchievements/rcheevos.git",
+        "commit": "3106e6d3d274b63c59976cb07dda94a292ab45ca"
+      },
+      {
+        "path": "core/deps/tinygettext",
+        "url": "https://github.com/flyinghead/tinygettext",
+        "commit": "41572a67f96013691685a38f0032f3c97aa34f79"
+      },
+      {
+        "path": "core/deps/tinygettext/external/tinycmmc",
+        "url": "https://github.com/Grumbel/tinycmmc.git",
+        "commit": "9a51e13802d930feb7261ba8876940659b258cb7"
+      }
     ]
   },
   "build": {
@@ -43,8 +63,14 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "PENDING-FIRST-VERIFIED-BUILD",
-    "needed": ["ld-linux-aarch64.so.1", "libc.so.6", "libgcc_s.so.1", "libm.so.6", "libstdc++.so.6"],
-    "note": "Record the sha256 once two clean builds agree. CI is the independent check; investigate a mismatch rather than overwriting this value."
+    "sha256": "e095678bbc3eb892e914f8314a9590a76e7d91ba18546194e24e7c7a6484bac9",
+    "needed": [
+      "ld-linux-aarch64.so.1",
+      "libc.so.6",
+      "libgcc_s.so.1",
+      "libm.so.6",
+      "libstdc++.so.6"
+    ],
+    "note": "Recorded from a clean local build in the digest-pinned image on 2026-11-07; the previous pin built byte-identically locally and in CI. CI is the independent check: investigate a mismatch rather than overwriting this value."
   }
 }
