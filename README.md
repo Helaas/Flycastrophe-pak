@@ -49,6 +49,8 @@ game.
   it off if a game hangs or runs at the wrong speed.
 - **Auto Skip Frame** (Maximum) skips up to two frames in a row while a game is behind, so the
   game and its sound keep full speed. Set it to **Disabled** to draw every frame.
+- **Audio DSP** (off) runs the sound chip's effects processor. Turn it on if a game's sound is
+  missing its reverb or effects; it costs some speed.
 
 ## Building
 
