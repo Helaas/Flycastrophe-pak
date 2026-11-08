@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "115dd9d7b938afae68cf80fc75aa0d64f1174d75",
-    "source_commit_note": "Helaas/Flycastrophe main after the Deadcast ledger was completed (Helaas/Flycastrophe#13); release bar run against this commit on 2026-11-08.",
+    "source_commit": "7c96a64d09862ba4b85319d24f1c159cabef1007",
+    "source_commit_note": "Helaas/Flycastrophe main after the code cache fix (Helaas/Flycastrophe#16), on top of the release-bar commit 115dd9d.",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -63,7 +63,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "4a22ad60b6c94dcb1a0421c0bad3db236b87f073d216ef0c32bd8ad99ba9c2b6",
+    "sha256": "d15c59884854e3097c5b6a011213384c895968131c84d917b680a1870c5b62ae",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
