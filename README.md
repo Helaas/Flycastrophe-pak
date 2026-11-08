@@ -5,10 +5,13 @@ It's Flycast's libretro core with speed changes from Deadcast ported in, and it 
 own RetroArch next to the Flycast cores Leaf already ships. The name is a warning: it trades
 some accuracy for speed, so a game that looks wrong here may be fine in Flycast.
 
-**Status: in development, not released yet.** The core is still plain Flycast with Leaf
-packaging. The speed changes arrive one at a time, and each is measured on the device before
-it lands. [FLYCASTROPHE.md](https://github.com/Helaas/Flycastrophe/blob/main/FLYCASTROPHE.md)
-in the core's repository lists what has been ported and what hasn't.
+**Status: in development, not released yet.** Deadcast's main speed changes are in: the
+sound chip and the polygon setup each run on a thread of their own, the CPU emulation uses
+Deadcast's recompiler, and a game that falls behind skips frames to keep full speed. On the
+Miniloong Pocket 1 that holds Crazy Taxi and Sonic Adventure 2 at a steady 60 fps, and with the
+frame limit off it's 21% and 49% faster there than Leaf's Flycast core.
+[FLYCASTROPHE.md](https://github.com/Helaas/Flycastrophe/blob/main/FLYCASTROPHE.md) in the
+core's repository lists every change, what was left out and why.
 
 ## Using it
 
@@ -23,7 +26,29 @@ single game, the same way you choose any other emulator in Leaf.
 - Flycastrophe keeps its own shared VMUs in `BIOS/dc/flycastrophe/`, so its saves never land in a
   VMU another Flycast core is using. If you want a save from Flycast, copy the
   `vmu_save_A1.bin` file across.
-- Per-pixel transparency sorting is not available. Use per-triangle or per-strip.
+- `Saves/Flycastrophe` also gets a `.blocks` file per game when you quit it: the game code
+  Flycastrophe translated, so a resumed game doesn't stall while it translates that code
+  again. Deleting these files is safe.
+- Per-pixel transparency sorting is not available. Transparency sorting defaults to per-strip,
+  the fastest; Daytona USA 2001 (US and European discs) always sorts per triangle so the decals
+  on the cars show.
+
+## If a game looks or sounds wrong
+
+Each speed change has an option of its own. While the game is running, open the RetroArch
+in-game menu and go to **Core Options**. The first four take effect the next time you start the
+game.
+
+- **Threaded Audio** (on) runs the sound chip on its own thread. Turn it off if a game's sound
+  or timing goes wrong.
+- **Parse Thread** (on) prepares each frame's polygons on its own thread. It helps games limited
+  by drawing and costs a little in the rest.
+- **Fast Vector Math** (on) computes the CPU's vector instructions faster but less exactly. Turn
+  it off if a game's geometry jitters.
+- **Idle Loop Skip** (on) lets the CPU skip the wait loops of the games Flycastrophe knows. Turn
+  it off if a game hangs or runs at the wrong speed.
+- **Auto Skip Frame** (Maximum) skips up to two frames in a row while a game is behind, so the
+  game and its sound keep full speed. Set it to **Disabled** to draw every frame.
 
 ## Building
 
