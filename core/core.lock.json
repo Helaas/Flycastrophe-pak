@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "7c96a64d09862ba4b85319d24f1c159cabef1007",
-    "source_commit_note": "Helaas/Flycastrophe main after the code cache fix (Helaas/Flycastrophe#16), on top of the release-bar commit 115dd9d.",
+    "source_commit": "b37fbb1739636417a76204e8e863e0fb5bd375f2",
+    "source_commit_note": "Helaas/Flycastrophe main after the new defaults (Helaas/Flycastrophe#18) and the GL call cuts (#19), with the code cache fix (#16).",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -63,7 +63,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "d15c59884854e3097c5b6a011213384c895968131c84d917b680a1870c5b62ae",
+    "sha256": "f600a9b09c46eb49c16801acd143d5b21b33a1b60ebe98d299f69b3d240a094b",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
