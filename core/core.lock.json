@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "b37fbb1739636417a76204e8e863e0fb5bd375f2",
-    "source_commit_note": "Helaas/Flycastrophe main after the new defaults (Helaas/Flycastrophe#18) and the GL call cuts (#19), with the code cache fix (#16).",
+    "source_commit": "11edbf1fb09056056aed28bb77377c1d55619ed3",
+    "source_commit_note": "Helaas/Flycastrophe main after the frame skip fix for stalls and leftover lag (Helaas/Flycastrophe#22), with the new defaults (#18), the GL call cuts (#19) and the code cache fix (#16).",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -63,7 +63,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "f600a9b09c46eb49c16801acd143d5b21b33a1b60ebe98d299f69b3d240a094b",
+    "sha256": "077a9b914035a111251597a06978963f4ecdb179c51cab20b78af67c5ab54008",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
@@ -71,6 +71,6 @@
       "libm.so.6",
       "libstdc++.so.6"
     ],
-    "note": "Recorded from two clean local builds in the digest-pinned image on 2026-11-08 that agreed byte for byte. The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
+    "note": "Recorded from two clean local builds in the digest-pinned image on 2026-11-09 that agreed byte for byte. The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
   }
 }
