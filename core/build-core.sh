@@ -19,6 +19,9 @@
 #       a core optimized with that profile
 #   PGO=off core/build-core.sh
 #       no profile (none of these three is checked against the lock)
+#   LINK_MAP=1 core/build-core.sh
+#       also writes the linker map to build/core/link.map: the core is linked
+#       with -s, and the map names its functions (for profiling); same core
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -127,7 +130,7 @@ PY
   docker run --rm \
     -v "$SRC_DIR":/src:ro \
     -v "$OUT_DIR":/out ${PGO_MOUNT[@]+"${PGO_MOUNT[@]}"} \
-    -e CMAKE_FLAGS="$CMAKE_FLAGS" -e TARGET="$TARGET" -e ARTIFACT="$ARTIFACT" -e PGO_FLAGS="$PGO_FLAGS" \
+    -e CMAKE_FLAGS="$CMAKE_FLAGS" -e TARGET="$TARGET" -e ARTIFACT="$ARTIFACT" -e PGO_FLAGS="$PGO_FLAGS" -e LINK_MAP="${LINK_MAP:-0}" \
     "$IMAGE_REF" \
     bash -euc '
       git config --global --add safe.directory "*"
@@ -137,10 +140,12 @@ PY
       # build from a copy on the container filesystem.
       cp -a /src /tmp/src
       mkdir -p /tmp/pgo
+      MAP_FLAG=""
+      if [ "$LINK_MAP" = 1 ]; then MAP_FLAG="-Wl,-Map=/tmp/build/link.map"; fi
       if [ -d /pgo-in ]; then cp /pgo-in/*.gcda /tmp/pgo/; fi
       CC=$TC-gcc CXX=$TC-g++ \
       CFLAGS="$UMRK_MLP1_PROFILE_CFLAGS $PGO_FLAGS" CXXFLAGS="$UMRK_MLP1_PROFILE_CXXFLAGS $PGO_FLAGS" \
-      LDFLAGS="$UMRK_MLP1_PROFILE_LDFLAGS $PGO_FLAGS" \
+      LDFLAGS="$UMRK_MLP1_PROFILE_LDFLAGS $PGO_FLAGS $MAP_FLAG" \
         cmake -S /tmp/src -B /tmp/build -G Ninja $CMAKE_FLAGS \
           -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR=aarch64 \
           -DCMAKE_SYSROOT="$SYSROOT" -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
@@ -148,6 +153,7 @@ PY
       ninja -C /tmp/build "$TARGET" >/tmp/ninja.log 2>&1 \
         || { grep -nE "error|fatal" /tmp/ninja.log | head -30; tail -20 /tmp/ninja.log; exit 1; }
       cp /tmp/ninja.log /out/ninja.log
+      if [ -f /tmp/build/link.map ]; then cp /tmp/build/link.map /out/link.map; fi
       cp "/tmp/build/$ARTIFACT" /out/
       $TC-strip --strip-unneeded "/out/$ARTIFACT"
       $TC-readelf -d "/out/$ARTIFACT" | sed -n "s/.*(NEEDED).*\[\(.*\)\]/\1/p" | sort | tr "\n" " " >/out/needed.txt
