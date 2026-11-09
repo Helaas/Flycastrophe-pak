@@ -51,8 +51,23 @@
       "-DUSE_HOST_LIBZIP=OFF",
       "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON"
     ],
-    "compiler_flags": "the toolchain's release profile (mlp1-build-flags.env): -O2 -mcpu=cortex-a55 -mtune=cortex-a55 -ffunction-sections -fdata-sections -DNDEBUG, link -Wl,--gc-sections",
+    "compiler_flags": "the toolchain's release profile (mlp1-build-flags.env): -O2 -mcpu=cortex-a55 -mtune=cortex-a55 -ffunction-sections -fdata-sections -DNDEBUG, link -Wl,--gc-sections; plus the pgo section's use_flags",
     "target": "flycast_libretro"
+  },
+  "pgo": {
+    "note": "Profile-guided optimization. The profile is GCC .gcda data from an instrumented build of source_commit (generate_flags) trained on an MLP1; build-core.sh checks its sha256, unpacks it into the container's /tmp/pgo and builds with use_flags. It fits source_commit only: a repin means training a new one (core/pgo/README.md). The training run is recorded below.",
+    "profile": "core/pgo/profile.tar.gz",
+    "profile_sha256": "d6e14959a4d72f4fa4c73ee2db02461c05d8d738203155a1f5263cd968c139e5",
+    "trained_commit": "11edbf1fb09056056aed28bb77377c1d55619ed3",
+    "generate_flags": "-fprofile-generate=/tmp/pgo",
+    "use_flags": "-fprofile-use=/tmp/pgo -fprofile-correction -fprofile-partial-training",
+    "training": {
+      "date": "2026-11-09",
+      "instrumented_core_sha256": "c61e391d9b7dfa49b5981097bf495f6e4c988911fe90649181a8c37346e98a54",
+      "runs": "Savestates from upstream Flycast issues, 60 s each with a generic input loop: Spider-Man (three, flyinghead/flycast#2191), Ecco the Dolphin (#1610), Sonic Adventure (#1600). Booted from the BIOS for 90 s: Power Stone (attract) and Dead or Alive 2 (its save prompt). Crazy Taxi and Sonic Adventure 2, the bench games, are left out.",
+      "setup": "Leaf's RetroArch with the bench config, performance governors, the core's defaults with Auto Skip Frame off, quit through the command port so libgcov writes the counters.",
+      "files": 354
+    }
   },
   "toolchain": {
     "image": "ghcr.io/utility-muffin-research-kitchen/mlp1-toolchain",
@@ -63,7 +78,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "077a9b914035a111251597a06978963f4ecdb179c51cab20b78af67c5ab54008",
+    "sha256": "a5d0729be2c76325d8007f9cf80ac40736a9c77a680b617a190d016ab9dc0541",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",

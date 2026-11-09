@@ -68,6 +68,11 @@ The core's source commit, its submodules and the toolchain image are pinned in
 FLYCASTROPHE_SRC=../Flycastrophe make package-mlp1
 ```
 
+The pinned core is built with profile-guided optimization: `core/pgo/profile.tar.gz`
+holds GCC profile data from an instrumented build played on an MLP1, and the lock
+records the commit it was trained on. A local checkout builds without it. Pinning a
+new commit means training a new profile; `core/pgo/README.md` has the steps.
+
 ## Credits and licences
 
 Flycast is by flyinghead and its contributors, and Deadcast is by tyrannotorus. Any mistakes in
