@@ -5,7 +5,7 @@ It's Flycast's libretro core with speed changes from Deadcast ported in, and it 
 own RetroArch next to the Flycast cores Leaf already ships. The name is a warning: it trades
 some accuracy for speed, so a game that looks wrong here may be fine in Flycast.
 
-**Status: in development, not released yet.** Deadcast's main speed changes are in: the
+**Version 0.1.0 requires Leaf 0.14.0 or newer.** Deadcast's main speed changes are in: the
 sound chip and the polygon setup each run on a thread of their own, the CPU emulation uses
 Deadcast's recompiler, and a game that falls behind skips frames to keep full speed. On the
 Miniloong Pocket 1 that holds Crazy Taxi and Sonic Adventure 2 at a steady 60 fps, and with the
@@ -15,7 +15,7 @@ core's repository lists every change, what was left out and why.
 
 ## Using it
 
-Once it's on Pak Rat, install it from there. There's no app to open: Flycastrophe shows up as
+Install **Flycastrophe** from **Actions → Pak Rat**. There's no app to open: Flycastrophe shows up as
 an emulator choice for Dreamcast, Naomi and Atomiswave. Pick it for a whole system or for a
 single game, the same way you choose any other emulator in Leaf.
 
@@ -32,6 +32,11 @@ single game, the same way you choose any other emulator in Leaf.
 - Per-pixel transparency sorting is not available. Transparency sorting defaults to per-strip,
   the fastest; Daytona USA 2001 (US and European discs) always sorts per triangle so the decals
   on the cars show.
+
+The release checks cover boot and clean exit in 17 games, benchmark scenes in Crazy Taxi
+and Sonic Adventure 2, and Pak Rat installation and removal. Full hands-on play, per-game
+state checks and the complete launcher lifecycle checklist remain incomplete. See the
+[release notes](https://github.com/Helaas/Flycastrophe-pak/releases/tag/v0.1.0) for details.
 
 ## If a game looks or sounds wrong
 
