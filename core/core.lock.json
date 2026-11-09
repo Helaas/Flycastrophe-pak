@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "11edbf1fb09056056aed28bb77377c1d55619ed3",
-    "source_commit_note": "Helaas/Flycastrophe main after the frame skip fix for stalls and leftover lag (Helaas/Flycastrophe#22), with the new defaults (#18), the GL call cuts (#19) and the code cache fix (#16).",
+    "source_commit": "25a0dc17e2850be274b4b7493af1cc41067d44cc",
+    "source_commit_note": "Helaas/Flycastrophe main after the Katana callback wait (Helaas/Flycastrophe#27), the profiler and per-frame GL overhead cuts (#26) and the frame skip fix (#22).",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -57,16 +57,17 @@
   "pgo": {
     "note": "Profile-guided optimization. The profile is GCC .gcda data from an instrumented build of source_commit (generate_flags) trained on an MLP1; build-core.sh checks its sha256, unpacks it into the container's /tmp/pgo and builds with use_flags. It fits source_commit only: a repin means training a new one (core/pgo/README.md). The training run is recorded below.",
     "profile": "core/pgo/profile.tar.gz",
-    "profile_sha256": "d6e14959a4d72f4fa4c73ee2db02461c05d8d738203155a1f5263cd968c139e5",
-    "trained_commit": "11edbf1fb09056056aed28bb77377c1d55619ed3",
+    "profile_sha256": "8927d0f8376ad5df532b6feaf5e5534343f418398888f7e27fe31bb8605bd150",
+    "trained_commit": "25a0dc17e2850be274b4b7493af1cc41067d44cc",
     "generate_flags": "-fprofile-generate=/tmp/pgo",
     "use_flags": "-fprofile-use=/tmp/pgo -fprofile-correction -fprofile-partial-training",
     "training": {
       "date": "2026-11-09",
-      "instrumented_core_sha256": "c61e391d9b7dfa49b5981097bf495f6e4c988911fe90649181a8c37346e98a54",
-      "runs": "Savestates from upstream Flycast issues, 60 s each with a generic input loop: Spider-Man (three, flyinghead/flycast#2191), Ecco the Dolphin (#1610), Sonic Adventure (#1600). Booted from the BIOS for 90 s: Power Stone (attract) and Dead or Alive 2 (its save prompt). Crazy Taxi and Sonic Adventure 2, the bench games, are left out.",
+      "instrumented_core_sha256": "e5ada1e1ae1d6f3514105fd02148190d41b160b7e27d605fb6b01a944f6e97ec",
+      "runs": "Savestates from upstream Flycast issues, 60 s each with a generic input loop: Spider-Man (three, flyinghead/flycast#2191), Ecco the Dolphin (#1610), Sonic Adventure (#1600). Booted from the BIOS for 90 s with Start and A pressed: Dead or Alive 2 and Power Stone. Crazy Taxi and Sonic Adventure 2, the bench games, are left out.",
       "setup": "Leaf's RetroArch with the bench config, performance governors, the core's defaults with Auto Skip Frame off, quit through the command port so libgcov writes the counters.",
-      "files": 354
+      "files": 354,
+      "instrumented_source": "c677f74b, the head of Helaas/Flycastrophe#27: the same tree as 25a0dc17, its squash merge (only the version string, the short commit, differs)"
     }
   },
   "toolchain": {
@@ -78,7 +79,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "a5d0729be2c76325d8007f9cf80ac40736a9c77a680b617a190d016ab9dc0541",
+    "sha256": "b27868f5eb90c9c5124325451887fa5d2968ed259368950ce0f8b397414e0b0c",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
