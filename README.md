@@ -5,11 +5,13 @@ It's Flycast's libretro core with speed changes from Deadcast ported in, and it 
 own RetroArch next to the Flycast cores Leaf already ships. The name is a warning: it trades
 some accuracy for speed, so a game that looks wrong here may be fine in Flycast.
 
-**Version 0.1.0 requires Leaf 0.14.0 or newer.** Deadcast's main speed changes are in: the
+**Version 0.2.0 requires Leaf 0.14.0 or newer.** Deadcast's main speed changes are in: the
 sound chip and the polygon setup each run on a thread of their own, the CPU emulation uses
-Deadcast's recompiler, and a game that falls behind skips frames to keep full speed. On the
-Miniloong Pocket 1 that holds Crazy Taxi and Sonic Adventure 2 at a steady 60 fps, and with the
-frame limit off it's 21% and 49% faster there than Leaf's Flycast core.
+Deadcast's recompiler, and a game that falls behind skips frames to keep full speed. Version
+0.2.0 adds Deadcast's latest recompiler work and draws each frame with far fewer GL calls. On
+the Miniloong Pocket 1 Crazy Taxi and Sonic Adventure 2 hold a steady 60 fps, and with the frame
+limit off they run 56% and 85% faster than with Leaf's Flycast core. NFL 2K2, which ran at about
+half speed in 0.1.0, now runs at full speed in play.
 [FLYCASTROPHE.md](https://github.com/Helaas/Flycastrophe/blob/main/FLYCASTROPHE.md) in the
 core's repository lists every change, what was left out and why.
 
@@ -33,10 +35,11 @@ single game, the same way you choose any other emulator in Leaf.
   the fastest; Daytona USA 2001 (US and European discs) always sorts per triangle so the decals
   on the cars show.
 
-The release checks cover boot and clean exit in 17 games, benchmark scenes in Crazy Taxi
-and Sonic Adventure 2, and Pak Rat installation and removal. Full hands-on play, per-game
-state checks and the complete launcher lifecycle checklist remain incomplete. See the
-[release notes](https://github.com/Helaas/Flycastrophe-pak/releases/tag/v0.1.0) for details.
+The 0.2.0 checks cover benchmark scenes in Crazy Taxi, Sonic Adventure 2 and NFL 2K2, short
+runs of six more games from save states and boots, and a Pak Rat update from 0.1.0. Full
+hands-on play, per-game state checks and the complete launcher lifecycle checklist remain
+incomplete. See the
+[release notes](https://github.com/Helaas/Flycastrophe-pak/releases/tag/v0.2.0) for details.
 
 ## If a game looks or sounds wrong
 
