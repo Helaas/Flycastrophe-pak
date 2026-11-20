@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "PENDING-PIN-MAIN-COMMIT",
-    "source_commit_note": "PENDING: Helaas/Flycastrophe main after #35 (per-polygon setup trim), #36 (Group Translucent Polygons, off by default), #37 (32 MB code cache) and #38 (evidence), plus the two fix commits for #36 and #37. Pin the merge commit once all are on main.",
+    "source_commit": "aa6b3800f49a7a7155d04a3f4a15a0e47d58bbe6",
+    "source_commit_note": "Helaas/Flycastrophe main after the per-polygon setup trim (Helaas/Flycastrophe#35), Group Translucent Polygons, off by default (#36), and the 32 MB code cache (#37); #38 adds evidence only.",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -58,7 +58,7 @@
     "note": "Profile-guided optimization. The profile is GCC .gcda data from an instrumented build of source_commit (generate_flags) trained on an MLP1; build-core.sh checks its sha256, unpacks it into the container's /tmp/pgo and builds with use_flags. It fits source_commit only: a repin means training a new one (core/pgo/README.md). The training run is recorded below.",
     "profile": "core/pgo/profile.tar.gz",
     "profile_sha256": "0eb9a715ed5bc6d71dc2dad9d5a68527acfe12a7b09b62e2c718d5d640bd04a3",
-    "trained_commit": "PENDING-PIN-MAIN-COMMIT",
+    "trained_commit": "aa6b3800f49a7a7155d04a3f4a15a0e47d58bbe6",
     "generate_flags": "-fprofile-generate=/tmp/pgo",
     "use_flags": "-fprofile-use=/tmp/pgo -fprofile-correction -fprofile-partial-training",
     "training": {
@@ -67,7 +67,7 @@
       "runs": "Savestates from upstream Flycast issues, 60 s each with a generic input loop: Spider-Man (three, flyinghead/flycast#2191), Ecco the Dolphin (#1610), Sonic Adventure (#1600). Booted from the BIOS for 90 s with Start and A pressed: Dead or Alive 2 and Power Stone. Crazy Taxi and Sonic Adventure 2, the bench games, are left out.",
       "setup": "Leaf's RetroArch with the bench config, performance governors, the core's defaults with Auto Skip Frame off, quit through the command port so libgcov writes the counters.",
       "files": 354,
-      "instrumented_source": "PENDING main commit; trained on local branch agent/release-0.3.0-combined at c5c865dc (origin/main 1d7ef4ed with #35, #36, #37 and #38 merged, then the two fix commits), built from a local checkout: the same code as the squash merges on main (only FLYCASTROPHE.md and flycastrophe/ differ)"
+      "instrumented_source": "local branch agent/release-0.3.0-combined at c5c865dc (main 1d7ef4ed with #35, #36, #37 and #38 merged, then the two fix commits that went into #36 and #37), built from a local checkout: the same code as aa6b3800, the squash merges of all four (only FLYCASTROPHE.md and flycastrophe/ differ)"
     }
   },
   "toolchain": {
@@ -79,7 +79,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "PENDING-FIRST-VERIFIED-BUILD",
+    "sha256": "958562b3054072df0552f09f20f8556fe3d3fc72f96b625a20a336bd72ebf117",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
@@ -87,6 +87,6 @@
       "libm.so.6",
       "libstdc++.so.6"
     ],
-    "note": "PENDING: record from two clean local builds of the pinned commit in the digest-pinned image that agree byte for byte (previous release, 0.2.0: 2026-11-10, db68e7da). The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
+    "note": "Recorded from two clean local builds in the digest-pinned image on 2026-11-20 that agreed byte for byte. The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
   }
 }
