@@ -5,13 +5,15 @@ It's Flycast's libretro core with speed changes from Deadcast ported in, and it 
 own RetroArch next to the Flycast cores Leaf already ships. The name is a warning: it trades
 some accuracy for speed, so a game that looks wrong here may be fine in Flycast.
 
-**Version 0.2.0 requires Leaf 0.14.0 or newer.** Deadcast's main speed changes are in: the
+**Version 0.3.0 requires Leaf 0.14.0 or newer.** Deadcast's main speed changes are in: the
 sound chip and the polygon setup each run on a thread of their own, the CPU emulation uses
 Deadcast's recompiler, and a game that falls behind skips frames to keep full speed. Version
-0.2.0 adds Deadcast's latest recompiler work and draws each frame with far fewer GL calls. On
-the Miniloong Pocket 1 Crazy Taxi and Sonic Adventure 2 hold a steady 60 fps, and with the frame
-limit off they run 56% and 85% faster than with Leaf's Flycast core. NFL 2K2, which ran at about
-half speed in 0.1.0, now runs at full speed in play.
+0.3.0 adds three things. A new option, **Group Translucent Polygons**, speeds up games that are
+limited by drawing, such as NFL 2K2, and it's off by default because it only helps those games.
+The recompiler's code cache is three times larger, which removes a one-second stall that long
+Sonic Adventure 2 sessions hit when the cache filled up. And the renderer does less work for
+each polygon. The core is also bigger: it takes about 53 MB on your card, up from about
+30 MB in 0.2.0.
 [FLYCASTROPHE.md](https://github.com/Helaas/Flycastrophe/blob/main/FLYCASTROPHE.md) in the
 core's repository lists every change, what was left out and why.
 
@@ -35,11 +37,8 @@ single game, the same way you choose any other emulator in Leaf.
   the fastest; Daytona USA 2001 (US and European discs) always sorts per triangle so the decals
   on the cars show.
 
-The 0.2.0 checks cover benchmark scenes in Crazy Taxi, Sonic Adventure 2 and NFL 2K2, short
-runs of six more games from save states and boots, and a Pak Rat update from 0.1.0. Full
-hands-on play, per-game state checks and the complete launcher lifecycle checklist remain
-incomplete. See the
-[release notes](https://github.com/Helaas/Flycastrophe-pak/releases/tag/v0.2.0) for details.
+See the [release notes](https://github.com/Helaas/Flycastrophe-pak/releases/tag/v0.3.0) for what was
+checked and what wasn't.
 
 ## If a game looks or sounds wrong
 
@@ -57,6 +56,11 @@ game.
   it off if a game hangs or runs at the wrong speed.
 - **Auto Skip Frame** (Maximum) skips up to two frames in a row while a game is behind, so the
   game and its sound keep full speed. Set it to **Disabled** to draw every frame.
+- **Group Translucent Polygons** (off) lets see-through polygons that don't overlap on screen
+  change places so more of them are drawn together. Every pixel still gets its polygons in the
+  game's order, so the picture is the same. It helps games limited by drawing, such as NFL 2K2.
+  It only applies when Transparency sorting is per-strip or the game sorts its own lists, and it
+  stays off when Native Depth Interpolation is on.
 - **Audio DSP** (off) runs the sound chip's effects processor. Turn it on if a game's sound is
   missing its reverb or effects; it costs some speed.
 

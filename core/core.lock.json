@@ -4,8 +4,8 @@
   "core": {
     "id": "flycastrophe",
     "source_url": "https://github.com/Helaas/Flycastrophe.git",
-    "source_commit": "1d7ef4ed8640230a728dee0517a6088e2ff470fa",
-    "source_commit_note": "Helaas/Flycastrophe main after the draw-call cuts (Helaas/Flycastrophe#29: vertex ranges, runs of one-triangle modifier volumes) and Deadcast's faster SH4 dynarec (#34).",
+    "source_commit": "aa6b3800f49a7a7155d04a3f4a15a0e47d58bbe6",
+    "source_commit_note": "Helaas/Flycastrophe main after the per-polygon setup trim (Helaas/Flycastrophe#35), Group Translucent Polygons, off by default (#36), and the 32 MB code cache (#37); #38 adds evidence only.",
     "license": "GPL-2.0-only",
     "license_path_in_source": "LICENSE"
   },
@@ -57,17 +57,17 @@
   "pgo": {
     "note": "Profile-guided optimization. The profile is GCC .gcda data from an instrumented build of source_commit (generate_flags) trained on an MLP1; build-core.sh checks its sha256, unpacks it into the container's /tmp/pgo and builds with use_flags. It fits source_commit only: a repin means training a new one (core/pgo/README.md). The training run is recorded below.",
     "profile": "core/pgo/profile.tar.gz",
-    "profile_sha256": "55f685ad09e0f91e749736fd0e6cb0e93cd6f32fb4f8da88b8c5ed8cbd220b18",
-    "trained_commit": "1d7ef4ed8640230a728dee0517a6088e2ff470fa",
+    "profile_sha256": "0eb9a715ed5bc6d71dc2dad9d5a68527acfe12a7b09b62e2c718d5d640bd04a3",
+    "trained_commit": "aa6b3800f49a7a7155d04a3f4a15a0e47d58bbe6",
     "generate_flags": "-fprofile-generate=/tmp/pgo",
     "use_flags": "-fprofile-use=/tmp/pgo -fprofile-correction -fprofile-partial-training",
     "training": {
-      "date": "2026-11-10",
-      "instrumented_core_sha256": "edc22756a1efc38705d77c7405496ab8c5596e4e10312e3cf78306c01e1bf1cd",
+      "date": "2026-11-20",
+      "instrumented_core_sha256": "a418caded37484d7a0ab5599c318ecc79bfdfcbcc633a7d675c976e35408d99c",
       "runs": "Savestates from upstream Flycast issues, 60 s each with a generic input loop: Spider-Man (three, flyinghead/flycast#2191), Ecco the Dolphin (#1610), Sonic Adventure (#1600). Booted from the BIOS for 90 s with Start and A pressed: Dead or Alive 2 and Power Stone. Crazy Taxi and Sonic Adventure 2, the bench games, are left out.",
       "setup": "Leaf's RetroArch with the bench config, performance governors, the core's defaults with Auto Skip Frame off, quit through the command port so libgcov writes the counters.",
       "files": 354,
-      "instrumented_source": "#29's head 2dba2ced with #34's two commits applied, built from a local checkout: the same code as 1d7ef4ed, the squash merges of both (only FLYCASTROPHE.md, README.md and flycastrophe/ differ)"
+      "instrumented_source": "local branch agent/release-0.3.0-combined at c5c865dc (main 1d7ef4ed with #35, #36, #37 and #38 merged, then the two fix commits that went into #36 and #37), built from a local checkout: the same code as aa6b3800, the squash merges of all four (only FLYCASTROPHE.md and flycastrophe/ differ)"
     }
   },
   "toolchain": {
@@ -79,7 +79,7 @@
   },
   "artifact": {
     "file_name": "flycastrophe_libretro.so",
-    "sha256": "db68e7da64e9a9c07d463c4d62bb7bccc7d8b3d3d6695b74c8a9d530a951205b",
+    "sha256": "958562b3054072df0552f09f20f8556fe3d3fc72f96b625a20a336bd72ebf117",
     "needed": [
       "ld-linux-aarch64.so.1",
       "libc.so.6",
@@ -87,6 +87,6 @@
       "libm.so.6",
       "libstdc++.so.6"
     ],
-    "note": "Recorded from two clean local builds in the digest-pinned image on 2026-11-10 that agreed byte for byte. The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
+    "note": "Recorded from two clean local builds in the digest-pinned image on 2026-11-20 that agreed byte for byte. The shallow source clone has no tags, so the core reports its version as the short commit. CI is the independent check: investigate a mismatch rather than overwriting this value."
   }
 }
